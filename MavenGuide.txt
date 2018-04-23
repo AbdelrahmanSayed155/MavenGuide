@@ -1,0 +1,142 @@
+Maven 
+- building tool{ mean 
+The "Build" is a process that covers all the steps required to create a "deliverable" of your software.
+ In the Java world, this typically includes:
+
+Generating sources (sometimes).
+Compiling sources.
+Compiling test sources.
+Executing tests (unit tests, integration tests, etc).
+Packaging (into jar, war, ejb-jar, ear).
+Running health checks (static analyzers like Checkstyle, Findbugs, PMD, test coverage, etc).
+Generating reports.
+So as you can see, compiling is only a (small) part of the build (and the best practice is to fully automate 
+all the steps with tools like Maven or Ant and to run the build continuously 
+
+}
+-project management tool help to depency tool
+
+- bui;d and deploy Jars 
+------------------
+frist download mvn apache 
+     Mvn Repeosatory  have two the type of info 
+	    -ArcheType info 
+		( info for diffrent type of projects - full structure of projects - all required info for diff projects ( jee projs , hibernate pro , spring boot pro) )
+		-Dependency info 
+		 (List of Jar files )
+
+ for mvn Project you must entered 
+  
+  -groupId will identify your project uniquely across all projects, 
+  so we need to enforce a naming schema. It has to follow the package name rules, 
+  what means that has to be at least as a domain name you control, and you can create as many subgroups as you want.
+  - artifactId is the name of the jar without version. 
+  If you created it then you can choose whatever name you want with lowercase letters and no strange symbols.
+  If it's a third party jar you have to take the name of the jar as it's distributed.
+      eg. maven, commons-math  
+ 
+ 
+ --- pom.xml
+ this file have all needes jars into your pro
+  <scope> test </scope> for using jar in test phase 
+  <scope> compile </scope> using jar in compile phase
+  
+  The <scope> element can take 6 values: compile, provided, runtime, test, system and import.
+
+This scope is used to limit the transitivity of a dependency, and also to affect the classpath used for various build tasks.
+
+compile
+
+This is the default scope, used if none is specified. Compile dependencies are available in all classpaths of a project. 
+Furthermore, those dependencies are propagated to dependent projects.
+
+provided
+
+This is much like compile, but indicates you expect the JDK or a container to provide the dependency at runtime. For example, when building a web application for the Java Enterprise Edition, you would set the dependency on the Servlet API and related Java EE APIs to scope provided because the web container provides those classes. This scope is only available on the compilation and test classpath, and is not transitive.
+
+runtime
+
+This scope indicates that the dependency is not required for compilation,
+ but is for execution. It is in the runtime and test classpaths, but not the compile classpath.
+
+test
+
+This scope indicates that the dependency is not required for normal use of the application, and is only available for the test compilation and execution phases.
+
+system
+
+This scope is similar to provided except that you have to provide the JAR which contains it explicitly. The artifact is always available and is not looked up in a repository.
+
+import (only available in Maven 2.0.9 or later)
+
+This scope is only used on a dependency of type pom in the section. It indicates that the specified POM should be replaced with the dependencies in that POM's section. Since they are replaced, dependencies with a scope of import do not actually participate in limiting the transitivity of a dependency.
+To answer the second part of your question:
+
+How can we use it for running test?
+
+ ---------------------
+
+----ArcheType have (Folder Structure ,  pom.xml) 
+---  ArcheType generate ( artifactalId , GroupId , Version , Package (jar or war ,output), ArcheType )
+
+
+some of phases of maven 
+  - validate : validate that every thing is ok and all depennecy is found 
+  - compile  to extract .class files  (command mvn compile)
+  - test     run test cases 
+  - package (Jar) in this step it (compile then test then extract jar)  (command mvn package)
+  -  install  run the Jar ( mvn install )
+
+   command ( mvn clean ) clear previos build 
+
+------ why i add jetty plugin in maven  ( when i write webPage )
+Basically, you create a java project, put jetty's code in it, 
+create a context file in jetty/contexts that points to your web application, and Run as Java application
+for run jsp and servlet on local must using jetty (Web Server) 
+
+--- comand( mvn eclipse:eclipse) convert pro to eclipse pro
+---  (mvn archetype:generate) download template and architecture of progects
+
+
+pom mean project object model 
+
+if you have dependency and it need other dependency it download otomatically  and can find it in dependency hierarcly 
+
+it called transitive dependency  (that mean dependency have depency it download but must be configure into dependency hierarcly )
+if you want that there is transitive  ctrl + click double click in name of jar in pom file  to go to pom file of depency 
+
+if you want bosslog for hibernate only so make hibernate 
+and other progect using log4j log you must exclusion  bosslog into hibernate dependency 
+ for example 
+<dependencies>
+    <dependency>
+      <groupId>sample.ProjectA</groupId>
+      <artifactId>Project-A</artifactId>
+      <version>1.0</version>
+      <scope>compile</scope>
+      <exclusions>
+        <exclusion>  <!-- declare the exclusion here -->
+          <groupId>sample.ProjectB</groupId>
+          <artifactId>Project-B</artifactId>
+        </exclusion>
+      </exclusions> 
+    </dependency>
+  </dependencies>
+  
+  Project-B then run onlly into  Project-A so jar of  Project-B diapear from public workshop 
+
+     
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
